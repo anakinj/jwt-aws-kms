@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe "Usage via ruby-jwt" do
+RSpec.describe JWT::KMS do
   let(:key_id) do
     Aws::KMS::Client.new.create_key(key_spec: "HMAC_256", key_usage: "GENERATE_VERIFY_MAC").key_metadata.key_id
   end
 
   let(:algo_instance) do
-    ::JWT::KMS::Key.by(key_id: key_id)
+    described_class.by(key_id: key_id)
   end
 
   let(:payload) { { "pay" => "load" } }
