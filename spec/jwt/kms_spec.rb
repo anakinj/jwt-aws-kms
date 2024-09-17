@@ -6,7 +6,7 @@ RSpec.describe JWT::KMS do
   end
 
   let(:algo_instance) do
-    described_class.by(key_id: key_id)
+    described_class::Key.by(key_id: key_id)
   end
 
   let(:payload) { { "pay" => "load" } }
