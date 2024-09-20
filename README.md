@@ -23,7 +23,7 @@ require `jwt/kms`
 # Create a key, for example with the ruby AWS SDK
 key = Aws::KMS::Client.new.create_key(key_spec: "HMAC_512", key_usage: "GENERATE_VERIFY_MAC")
 
-algo = ::JWT::KMS.by/key_id: key.key_metadata.key_id )
+algo = ::JWT::KMS.by(key_id: key.key_metadata.key_id)
 
 token = JWT.encode(payload, nil, algo)
 decoded_token = JWT.decode(token, "Not relevant", true, algorithm: algo)
