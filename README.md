@@ -4,11 +4,31 @@ AWS KMS algorithm extensions for ruby-jwt.
 
 ## Installation
 
+Add this line to your application's Gemfile:
 
+```ruby
+gem 'jwt-kms'
+```
+
+And require the gem in your code.
+
+```ruby
+require `jwt/kms`
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+
+# Create a key, for example with the ruby AWS SDK
+key = Aws::KMS::Client.new.create_key(key_spec: "HMAC_512", key_usage: "GENERATE_VERIFY_MAC")
+
+algo = ::JWT::KMS.by/key_id: key.key_metadata.key_id )
+
+token = JWT.encode(payload, nil, algo)
+decoded_token = JWT.decode(token, "Not relevant", true, algorithm: algo)
+```
+
 
 ## Development
 
