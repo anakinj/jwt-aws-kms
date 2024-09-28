@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe JWT::KMS do
+RSpec.describe JWT::Aws::KMS do
   let(:payload) { { "pay" => "load" } }
 
   describe ".for" do

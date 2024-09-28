@@ -4,7 +4,7 @@ require "simplecov"
 
 SimpleCov.start
 
-require "jwt/kms"
+require "jwt-aws-kms"
 
 Aws.config.update(
   endpoint: "http://localhost:4566",
