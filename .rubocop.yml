@@ -12,6 +12,10 @@ Style/StringLiterals:
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
 
+Naming/FileName:
+  Exclude:
+    - lib/jwt-aws-kms.rb
+
 Metrics/BlockLength:
   Exclude:
     - spec/**/*_spec.rb
