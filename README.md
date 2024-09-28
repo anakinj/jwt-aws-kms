@@ -49,9 +49,9 @@ decoded_token = JWT.decode(token, key.key_metadata.key_id, true, algorithm: algo
 You can swap the default algorithms in the JWT gem to AWS backed ones by calling `::JWT::Aws::KMS.replace_defaults!`.
 
 ```ruby
-   ::JWT::Aws::KMS.replace_defaults! # Called in a initializer of some kind
+::JWT::Aws::KMS.replace_defaults! # Called in a initializer of some kind
 
-  token = JWT.encode(payload, "e25c502b-a383-44ac-a778-0d97e8688cb7", "HS512") # Encode payload with KMS key e25c502b-a383-44ac-a778-0d97e8688cb7
+token = JWT.encode(payload, "e25c502b-a383-44ac-a778-0d97e8688cb7", "HS512") # Encode payload with KMS key e25c502b-a383-44ac-a778-0d97e8688cb7
 ```
 
 ## Development
