@@ -8,42 +8,30 @@ module JWT
       include JWT::JWA::SigningAlgorithm
 
       MAPPINGS = {
-        "HMAC_256" => { alg: "HS256", mac_algorithm: "HMAC_SHA_256" },
-        "HMAC_384" => { alg: "HS384", mac_algorithm: "HMAC_SHA_384" },
-        "HMAC_512" => { alg: "HS512", mac_algorithm: "HMAC_SHA_512" }
+        "HS256" => "HMAC_SHA_256",
+        "HS384" => "HMAC_SHA_384",
+        "HS512" => "HMAC_SHA_512"
       }.freeze
 
-      def initialize(key_id:, key_spec: nil)
-        @key_id = key_id
-        @key_spec = key_spec
+      def initialize(algorithm:)
+        @alg = algorithm
       end
 
-      def alg
-        MAPPINGS.dig(key_spec, :alg)
+      def sign(data:, signing_key:, **)
+        KMS.client.generate_mac(key_id: signing_key, mac_algorithm: mac_algorithm, message: data).mac
       end
 
-      def sign(data:, **)
-        KMS.client.generate_mac(key_id: key_id, mac_algorithm: mac_algorithm, message: data).mac
-      end
-
-      def verify(data:, signature:, **)
-        KMS.client.verify_mac(key_id: key_id, mac_algorithm: mac_algorithm, message: data, mac: signature).mac_valid
+      def verify(data:, verification_key:, signature:, **)
+        KMS.client.verify_mac(key_id: verification_key, mac_algorithm: mac_algorithm, message: data,
+                              mac: signature).mac_valid
       end
 
       private
 
       attr_reader :key_id
 
-      def key_spec
-        @key_spec ||= description.key_spec
-      end
-
       def mac_algorithm
-        MAPPINGS.dig(key_spec, :mac_algorithm)
-      end
-
-      def description
-        @description ||= KMS.client.describe_key(key_id: key_id)
+        MAPPINGS.fetch(alg, nil)
       end
     end
   end
