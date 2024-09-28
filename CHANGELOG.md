@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/anakinj/jwt-aws-kms/compare/v1.0.0...v1.1.0) (2024-09-28)
+
+
+### Features
+
+* Allow replacing default algorithms with AWS KMS versions ([#7](https://github.com/anakinj/jwt-aws-kms/issues/7)) ([d6cfe4f](https://github.com/anakinj/jwt-aws-kms/commit/d6cfe4f9bb0ec23daaee771e8692a4410aef393e))
+
 ## [1.0.0](https://github.com/anakinj/jwt-aws-kms/compare/v0.6.0...v1.0.0) (2024-09-28)
 
 
