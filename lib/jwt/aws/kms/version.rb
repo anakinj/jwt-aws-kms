@@ -3,7 +3,7 @@
 module JWT
   module Aws
     module KMS
-      VERSION = "0.5.0"
+      VERSION = "0.3.0"
     end
   end
 end
