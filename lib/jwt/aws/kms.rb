@@ -25,6 +25,14 @@ module JWT
           raise ArgumentError, "Algorithm #{algorithm} not supported"
         end.new(algorithm: algorithm)
       end
+
+      def self.replace_defaults!
+        [HmacKey, SignVerifyKey].each do |type|
+          type::MAPPINGS.each_key do |algorithm|
+            type.register_algorithm(type.new(algorithm: algorithm))
+          end
+        end
+      end
     end
   end
 end

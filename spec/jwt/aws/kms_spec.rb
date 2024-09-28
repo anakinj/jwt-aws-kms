@@ -103,4 +103,21 @@ RSpec.describe JWT::Aws::KMS do
       expect(decoded_token).to eq([{ "pay" => "load" }, { "alg" => "HS512" }])
     end
   end
+
+  describe ".replace_defaults!" do
+    before do
+      described_class.replace_defaults!
+    end
+
+    it "replaces the default algorithms with AWS KMS backed ones" do
+      expect(JWT::JWA.resolve("RS512")).to be_a(JWT::Aws::KMS::SignVerifyKey)
+    end
+
+    it "allows utilizing the AWS KMS key using the algo name" do
+      key = Aws::KMS::Client.new.create_key(key_spec: "HMAC_512", key_usage: "GENERATE_VERIFY_MAC")
+      token = JWT.encode(payload, key.key_metadata.key_id, "HS512")
+      decoded_token = JWT.decode(token, key.key_metadata.key_id, true, algorithms: "HS512")
+      expect(decoded_token).to eq([{ "pay" => "load" }, { "alg" => "HS512" }])
+    end
+  end
 end
