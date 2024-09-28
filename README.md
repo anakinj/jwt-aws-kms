@@ -1,4 +1,4 @@
-# JWT::KMS
+# JWT::Aws::KMS
 
 AWS KMS algorithm extensions for ruby-jwt.
 
@@ -28,6 +28,22 @@ algo = ::JWT::Aws::KMS.for(algorithm: "HS512")
 token = JWT.encode(payload, key.key_metadata.key_id, algo)
 decoded_token = JWT.decode(token, key.key_metadata.key_id, true, algorithm: algo)
 ```
+
+## Supported algorithms
+
+The gem supports the following AWS KMS algorithms:
+
+| Algorithm Name | Description                                      | JWA Name |
+|----------------|--------------------------------------------------|-------------------------|
+| RSASSA_PKCS1_V1_5_SHA_256 | RSASSA PKCS1 v1.5 using SHA-256       | RS256                   |
+| RSASSA_PKCS1_V1_5_SHA_384 | RSASSA PKCS1 v1.5 using SHA-384       | RS384                   |
+| RSASSA_PKCS1_V1_5_SHA_512 | RSASSA PKCS1 v1.5 using SHA-512       | RS512                   |
+| RSASSA_PSS_SHA_256 | RSASSA PSS using SHA-256                     | PS256                   |
+| RSASSA_PSS_SHA_384 | RSASSA PSS using SHA-384                     | PS384                   |
+| RSASSA_PSS_SHA_512 | RSASSA PSS using SHA-512                     | PS512                   |
+| ECDSA_SHA_256 | ECDSA using P-256 and SHA-256                     | ES256                   |
+| ECDSA_SHA_384 | ECDSA using P-384 and SHA-384                     | ES384                   |
+| ECDSA_SHA_512 | ECDSA using P-521 and SHA-512                     | ES512                   |
 
 ## Development
 
