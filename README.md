@@ -23,14 +23,16 @@ require `jwt/kms`
 # Create a key, for example with the ruby AWS SDK
 key = Aws::KMS::Client.new.create_key(key_spec: "HMAC_512", key_usage: "GENERATE_VERIFY_MAC")
 
-algo = ::JWT::KMS.by(key_id: key.key_metadata.key_id)
+algo = ::JWT::KMS.for(algorithm: "HS512")
 
-token = JWT.encode(payload, nil, algo)
-decoded_token = JWT.decode(token, "Not relevant", true, algorithm: algo)
+token = JWT.encode(payload, key.key_metadata.key_id, algo)
+decoded_token = JWT.decode(token, key.key_metadata.key_id, true, algorithm: algo)
 ```
 
 
 ## Development
+
+[Localstack](https://www.localstack.cloud/) can be used to simulate the AWS KMS environment.
 
 ```
 docker run \

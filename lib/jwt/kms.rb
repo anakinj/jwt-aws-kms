@@ -5,6 +5,7 @@ require "jwt"
 
 require_relative "kms/version"
 require_relative "kms/hmac_key"
+require_relative "kms/sign_verify_key"
 
 module JWT
   # :nodoc:
@@ -13,19 +14,14 @@ module JWT
       @client ||= Aws::KMS::Client.new
     end
 
-    def self.by(key_id:)
-      from_description(KMS.client.describe_key(key_id: key_id))
-    end
-
-    def self.from_description(description)
-      case description.key_metadata.key_usage
-      when "GENERATE_VERIFY_MAC"
-        HmacKey.new(key_id: description.key_metadata.key_id, key_spec: description.key_metadata.key_spec)
-      when "SIGN_VERIFY"
-        SignVerifyKey.new(key_id: description.key_metadata.key_id, key_spec: description.key_metadata.key_spec)
+    def self.for(algorithm:)
+      if HmacKey::MAPPINGS.key?(algorithm)
+        HmacKey
+      elsif SignVerifyKey::MAPPINGS.key?(algorithm)
+        SignVerifyKey
       else
-        raise ArgumentError, "Keys with key_usage #{description.key_metadata.key_usage} not supported"
-      end
+        raise ArgumentError, "Algorithm #{algorithm} not supported"
+      end.new(algorithm: algorithm)
     end
   end
 end
